@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pedido-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels: { app: pedido-service }
+  template:
+    metadata:
+      labels: { app: pedido-service }
+    spec:
+      serviceAccountName: pedido-sa
+      containers:
+        - name: pedido-service
+          image: ${ECR}/pedido-service:1.0
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SNS_TOPIC_ARN
+              value: "${TOPIC_ARN}"
+            - name: SPRING_CLOUD_AWS_REGION_STATIC
+              value: "${AWS_REGION}"
