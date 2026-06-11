@@ -107,7 +107,9 @@ jobs:
       - name: Aplicar DynaKube CR
         env:
           DT_TENANT_ID: ${{ secrets.DT_TENANT_ID }}
-        run: envsubst < k8s/dynakube.yaml | kubectl apply -f -
+        run: |
+          rm -rf ~/.kube/cache/discovery/
+          envsubst < k8s/dynakube.yaml | kubectl apply -f -
 
       - name: Deploy da aplicação
         env:
