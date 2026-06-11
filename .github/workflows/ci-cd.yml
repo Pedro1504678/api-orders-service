@@ -101,6 +101,10 @@ jobs:
             --wait \
             --timeout 5m
 
+      - name: Debug - versoes do CRD
+        run: |
+          kubectl get crd dynakubes.dynatrace.com -o jsonpath='{range .spec.versions[*]}{.name} served={.served}{"\n"}{end}'    
+
       - name: Aguardar CRD DynaKube
         run: kubectl wait --for condition=established crd/dynakubes.dynatrace.com --timeout=60s
 
