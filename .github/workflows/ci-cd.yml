@@ -101,6 +101,9 @@ jobs:
             --wait \
             --timeout 5m
 
+      - name: Aguardar CRD DynaKube
+        run: kubectl wait --for condition=established crd/dynakubes.dynatrace.com --timeout=60s
+
       - name: Aplicar DynaKube CR
         env:
           DT_TENANT_ID: ${{ secrets.DT_TENANT_ID }}
