@@ -8,6 +8,8 @@ spec:
   apiUrl: https://${DT_TENANT_ID}.live.dynatrace.com/api
 
   # Referencia o K8s Secret criado pelo CI/CD com os tokens
+  # (opcional aqui: como o Secret tem o mesmo nome do DynaKube,
+  # o operator já o encontraria por padrão)
   tokens: dynakube
 
   # cloudNativeFullStack = injeção automática via webhook
@@ -20,7 +22,10 @@ spec:
           key: node-role.kubernetes.io/master
           operator: Exists
 
-  # O Operator só injeta o agente em pods destes namespaces
-  namespaceSelector:
-    matchNames:
-      - default
+      # O Operator só injeta o agente em pods de namespaces
+      # que casem com este selector. Todo namespace recebe
+      # automaticamente a label kubernetes.io/metadata.name
+      # com o próprio nome — por isso dá pra selecionar por nome assim:
+      namespaceSelector:
+        matchLabels:
+          kubernetes.io/metadata.name: default
