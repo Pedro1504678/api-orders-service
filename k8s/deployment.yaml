@@ -9,15 +9,19 @@ spec:
   template:
     metadata:
       labels: { app: pedido-service }
+      annotations:
+        oneagent.dynatrace.com/inject: true
     spec:
       serviceAccountName: pedido-sa
       containers:
         - name: pedido-service
-          image: ${ECR}/pedido-service:1.0
+          image: ${ECR}/pedido-service:${IMAGE_TAG}
           ports:
             - containerPort: 8080
           env:
             - name: SNS_TOPIC_ARN
-              value: "${TOPIC_ARN}"
+              value: "${SNS_TOPIC_ARN}"
             - name: SPRING_CLOUD_AWS_REGION_STATIC
               value: "${AWS_REGION}"
+            - name: QUEUE_NAME
+              value: "${QUEUE_NAME}"

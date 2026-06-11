@@ -1,0 +1,26 @@
+apiVersion: dynatrace.com/v1beta2
+kind: DynaKube
+metadata:
+  name: dynakube
+  namespace: dynatrace
+spec:
+  # ${DT_TENANT_ID} é substituído pelo envsubst no step de deploy
+  apiUrl: https://${DT_TENANT_ID}.live.dynatrace.com/api
+
+  # Referencia o K8s Secret criado pelo CI/CD com os tokens
+  tokens: dynakube
+
+  # cloudNativeFullStack = injeção automática via webhook
+  # O Operator intercepta criação de pods e injeta o OneAgent
+  # sem nenhuma mudança no Dockerfile da aplicação
+  oneAgent:
+    cloudNativeFullStack:
+      tolerations:
+        - effect: NoSchedule
+          key: node-role.kubernetes.io/master
+          operator: Exists
+
+  # O Operator só injeta o agente em pods destes namespaces
+  namespaceSelector:
+    matchNames:
+      - default
