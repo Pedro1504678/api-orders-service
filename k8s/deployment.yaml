@@ -10,7 +10,7 @@ spec:
     metadata:
       labels: { app: pedido-service }
       annotations:
-        oneagent.dynatrace.com/inject: true
+        oneagent.dynatrace.com/inject: "true"
     spec:
       serviceAccountName: pedido-sa
       containers:
