@@ -108,7 +108,7 @@ jobs:
 
       - name: Deploy da aplicação
         env:
-          ECR_REGISTRY: ${{ env.ECR_REGISTRY }}
+          ECR: ${{ env.ECR_REGISTRY }}
           IMAGE_TAG: ${{ needs.build-and-push.outputs.image-tag }}
           SNS_TOPIC_ARN: ${{ secrets.SNS_TOPIC_ARN }}
           AWS_REGION: ${{ env.AWS_REGION }}
