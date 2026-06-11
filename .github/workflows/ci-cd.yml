@@ -53,7 +53,7 @@ jobs:
 
       - name: Build e Push
         run: |
-          IMAGE=${{ env.ECR_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.meta.outputs.tag }}
+          IMAGE=${{ env.ECR_REGISTRY }}:${{ steps.meta.outputs.tag }}
           docker build -t $IMAGE .
           docker push $IMAGE
 
